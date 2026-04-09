@@ -8,10 +8,12 @@ public class Village {
 	private Chef chef;
 	private Gaulois[] villageois;
 	private int nbVillageois = 0;
+	private Marche marche;
 
-	public Village(String nom, int nbVillageoisMaximum) {
+	public Village(String nom, int nbVillageoisMaximum, int nbEtals) {
 		this.nom = nom;
 		villageois = new Gaulois[nbVillageoisMaximum];
+		this.marche = new Marche(nbEtals);
 	}
 
 	public String getNom() {
@@ -100,11 +102,26 @@ public class Village {
 		
 		public Etal trouverVendeur(Gaulois gaulois) {
 			for(int i = 0;i<etals.length;i++){
-				if(gaulois.equals(etals[i].getVendeur())) {
+				if(etals[i].isEtalOccupe() && gaulois.equals(etals[i].getVendeur())) {
 					return etals[i];
 				}
 			}
 			return null;
+		}
+		
+		public void afficherMarche() {
+			int nbEtalVide = 0;
+			for(int i = 0;i<etals.length;i++) {
+				if(!etals[i].isEtalOccupe()) {
+					nbEtalVide++;
+				} else {
+					etals[i].afficherEtal();
+				}
+			}
+			if(nbEtalVide>0) {
+				System.out.println("Il reste " + nbEtalVide + " étals non utilisés dans le marché.\n");
+			}
+			
 		}
 	}
 }
